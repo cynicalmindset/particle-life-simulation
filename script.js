@@ -7,7 +7,7 @@ canvas.height = window.innerHeight;
 
 
 //constant math bhalue
-const n = 1000;
+const n = 600;
 const dt = 0.1;
 const frictionadhalife = 0.04;
 const rMax = 0.2;
