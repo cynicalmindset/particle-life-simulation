@@ -1,9 +1,10 @@
-const { version } = require("react");
+// const { version } = require("react");
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d")
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 
 //constant math bhalue
 const n = 1000;
@@ -13,7 +14,7 @@ const rMax = 0.1;
 const m = 6;
 const matrix = getrandom();
 
-const frifact = Math.pow(x=0.5, y=dt/frictionadhalife);
+const frifact = Math.pow(0.5, dt / frictionadhalife);
 function getrandom(){
     const row = [];
     for(let i =0;i<m;i++){
@@ -43,13 +44,14 @@ for(let i = 0 ; i < n ;i++){
 }
 
 
-function force(){
-    const b = 0.3;
-    if(r<b){
-        return r/beta-1;
-    }else if( b < r && r<1){
-        return a*(1-Math.abs(2*r-1-b)/(1-b));
-    }else{
+function force(r, a) {
+    const beta = 0.3;
+
+    if (r < beta) {
+        return r / beta - 1;
+    } else if (r < 1) {
+        return a * (1 - Math.abs(2 * r - 1 - beta) / (1 - beta));
+    } else {
         return 0;
     }
 }
@@ -64,7 +66,7 @@ function updatepar(){
         for(let j = 0 ; j < n ; j++){
             if( j===i ) continue;
             const rx = posX[j] - posX[i];
-            const ry = posY[j] - posX[i];
+            const ry = posY[j] - posY[i];
             const r = Math.hypot(rx,ry);
             if(r>0 && r<rMax){
                 const f = force(r/rMax, matrix[color[i]][color[j]]);
@@ -83,9 +85,11 @@ function updatepar(){
         velY[i] += tfy * dt;
     }
     //pos
-    for(letj =0 ; j<n;j++){
-        posX[i] += velX[i] * dt;
-        posY[i] += velY[i] * dt;
+    for(let j =0 ; j <n;j++){
+        posX[j] += velX[j] * dt;
+        posY[j] += velY[j] * dt;
+        posX[j] = (posX[j] + 1) % 1;
+        posY[j] = (posY[j] + 1) % 1;
     }
 }
 
@@ -95,13 +99,13 @@ function loop(){
     updatepar();
     //chitarkari
     ctx.fillStyle = "white";
-    ctx.fillRect(x=0, y=0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     for(let i =0;i<n;i++){
         ctx.beginPath();
         const screenX = posX[i] * canvas.width;
         const screenY = posY[i] * canvas.height;
-        ctx.arc(screenX, screenY, radius = 1, startAngle=0 , endAngle = 2 * Math.PI);
-        ctx.fillStyle = `hsl(${360*(color[i]/m)}.100%,50%)`;
+        ctx.arc(screenX, screenY, 2, 0, Math.PI * 2);
+        ctx.fillStyle = `hsl(${360 * (color[i] / m)}, 100%, 50%)`;
         ctx.fill();
     }
     requestAnimationFrame(loop);
