@@ -8,12 +8,12 @@ canvas.height = window.innerHeight;
 
 //constant math bhalue
 const n = 1000;
-const dt = 0.2;
-const frictionadhalife = 0.040;
-const rMax = 0.1;
+const dt = 0.1;
+const frictionadhalife = 0.04;
+const rMax = 0.2;
 const m = 6;
 const matrix = getrandom();
-
+const forcefact = 1;
 const frifact = Math.pow(0.5, dt / frictionadhalife);
 function getrandom(){
     const row = [];
@@ -67,6 +67,7 @@ function updatepar(){
             if( j===i ) continue;
             const rx = posX[j] - posX[i];
             const ry = posY[j] - posY[i];
+            
             const r = Math.hypot(rx,ry);
             if(r>0 && r<rMax){
                 const f = force(r/rMax, matrix[color[i]][color[j]]);
@@ -75,8 +76,8 @@ function updatepar(){
             }
         }
 
-        tfx *= rMax;
-        tfy *= rMax;
+        tfx *= rMax *forcefact;
+        tfy *= rMax *forcefact;
 
         velX[i] *= frifact;
         velY[i] *= frifact;
