@@ -98,7 +98,7 @@ function loop(){
     //updations
     updatepar();
     //chitarkari
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for(let i =0;i<n;i++){
         ctx.beginPath();
